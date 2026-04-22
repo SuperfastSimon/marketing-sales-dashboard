@@ -1,97 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📢 Marketing & Sales Dashboard | Saikou.tech</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#1a0f00 0%,#1a1a2e 50%,#16213e 100%);color:#fff;min-height:100vh}
-        .header{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.2);padding:1rem 0;position:sticky;top:0;z-index:100}
-        .container{max-width:1400px;margin:0 auto;padding:0 2rem}
-        .header-content{display:flex;justify-content:space-between;align-items:center}
-        .logo{font-size:1.8rem;font-weight:bold;background:linear-gradient(45deg,#ffaa00,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .status-dot{width:12px;height:12px;border-radius:50%;background:#00ff00;box-shadow:0 0 10px #00ff00;animation:pulse 2s infinite;display:inline-block;margin-right:8px}
-        @keyframes pulse{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
-        h1{font-size:2.5rem;margin:2rem 0 .5rem;background:linear-gradient(45deg,#ffaa00,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
-        .subtitle{text-align:center;opacity:.8;margin-bottom:2rem;font-size:1.1rem}
-        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:2rem 0}
-        .stat-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:15px;padding:1.5rem;text-align:center;transition:transform .3s}
-        .stat-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px #ffaa0055}
-        .stat-number{font-size:2.5rem;font-weight:bold;color:#ffaa00}
-        .stat-label{opacity:.9;margin-top:.5rem}
-        .agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
-        .agent-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.5rem;transition:all .3s}
-        .agent-card:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);box-shadow:0 5px 20px #ffaa0033}
-        .agent-name{font-size:1.1rem;font-weight:600;margin-bottom:.5rem;color:#ffaa00}
-        .agent-desc{font-size:.9rem;opacity:.75;line-height:1.5;margin-bottom:1rem}
-        .badge{padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:500;background:#ffaa0022;color:#ffaa00;border:1px solid #ffaa00;display:inline-block}
-        .btn{padding:.4rem 1rem;border:none;border-radius:6px;font-size:.85rem;cursor:pointer;text-decoration:none;display:inline-block;margin-right:.5rem;transition:all .3s}
-        .btn-primary{background:linear-gradient(45deg,#ffaa00,#0099ff);color:#fff}
-        .btn-secondary{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)}
-        .btn:hover{transform:translateY(-2px)}
-        .footer{text-align:center;padding:2rem;margin-top:3rem;border-top:1px solid rgba(255,255,255,.1);opacity:.6}
-        .nav-links{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
-        .nav-links a{color:#ffaa00;text-decoration:none;font-size:.9rem;padding:.3rem .8rem;border:1px solid #ffaa0055;border-radius:20px;transition:all .3s}
-        .nav-links a:hover{background:#ffaa0022}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Marketing & Sales Dashboard – AI-powered campaign tracking, lead pipeline, revenue analytics, and conversion optimization in one unified view.">
+<title>Marketing & Sales Dashboard | AI Revenue Intelligence</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#050507;--surface:#0f0f13;--surface2:#16161e;--border:rgba(255,255,255,0.08);--primary:#bb86fc;--secondary:#03dac6;--accent:#f471b0;--success:#00e676;--warning:#ffab00;--text:#e2e2e7;--text2:#71717a;--glass:rgba(15,15,19,0.75);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6;overflow-x:hidden;}
+  .bg-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse at 60% 30%,black 20%,transparent 75%);opacity:0.35;}
+  nav{position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 8%;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--warning));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#000;font-size:1rem;}
+  .logo-text{font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:-0.5px;}
+  .nav-actions{display:flex;gap:12px;align-items:center;}
+  .nav-link{color:var(--text2);text-decoration:none;font-size:0.9rem;transition:0.2s;}
+  .nav-link:hover{color:#fff;}
+  .nav-cta{background:var(--accent);color:#fff;padding:0.55rem 1.4rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:0.9rem;transition:0.3s;}
+  .nav-cta:hover{opacity:0.85;transform:translateY(-1px);}
+  /* HERO */
+  .hero{padding:7rem 8% 4rem;max-width:1200px;margin:0 auto;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,113,176,0.1);color:var(--accent);padding:8px 18px;border-radius:100px;font-size:0.8rem;font-weight:700;border:1px solid rgba(244,113,176,0.3);margin-bottom:1.5rem;}
+  h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.15;color:#fff;margin-bottom:1.2rem;}
+  h1 span{color:var(--accent);}
+  .hero-sub{color:var(--text2);font-size:1.1rem;margin-bottom:2rem;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 1.8rem;border-radius:12px;font-weight:700;text-decoration:none;transition:0.3s;font-size:0.95rem;cursor:pointer;border:none;}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-outline{background:transparent;color:#fff;border:1px solid var(--border);}
+  .btn:hover{transform:translateY(-2px);opacity:0.9;}
+  /* DASHBOARD PREVIEW CARD */
+  .dashboard-preview{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+  .preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+  .preview-title{font-weight:700;color:#fff;font-size:0.9rem;}
+  .live-dot{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--success);}
+  .live-dot::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.2rem;}
+  .kpi{background:var(--surface2);border-radius:12px;padding:1rem;}
+  .kpi-label{font-size:0.75rem;color:var(--text2);margin-bottom:0.4rem;}
+  .kpi-value{font-size:1.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;color:#fff;}
+  .kpi-delta{font-size:0.78rem;margin-top:0.3rem;}
+  .kpi-delta.up{color:var(--success);}
+  .kpi-delta.down{color:var(--accent);}
+  .mini-chart{background:var(--surface2);border-radius:12px;padding:1rem;margin-bottom:1rem;}
+  .chart-label{font-size:0.75rem;color:var(--text2);margin-bottom:0.75rem;}
+  .bars{display:flex;align-items:flex-end;gap:4px;height:50px;}
+  .bar{flex:1;border-radius:4px 4px 0 0;transition:0.3s;}
+  .bar:hover{opacity:0.8;}
+  .pipeline-row{display:flex;gap:6px;}
+  .pipeline-stage{flex:1;background:var(--surface2);border-radius:8px;padding:0.6rem;text-align:center;}
+  .pipeline-stage .count{font-size:1.1rem;font-weight:800;font-family:'JetBrains Mono',monospace;color:#fff;}
+  .pipeline-stage .stage-label{font-size:0.65rem;color:var(--text2);margin-top:2px;}
+  /* METRICS SECTION */
+  .metrics-section{padding:5rem 8%;max-width:1200px;margin:0 auto;}
+  .section-label{color:var(--accent);font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;}
+  .section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:#fff;margin-bottom:1rem;}
+  .section-sub{color:var(--text2);max-width:600px;margin-bottom:3rem;}
+  .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;}
+  .metric-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:0.35s;}
+  .metric-card:hover{transform:translateY(-4px);border-color:rgba(244,113,176,0.3);box-shadow:0 10px 40px rgba(0,0,0,0.3);}
+  .metric-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1.2rem;}
+  .metric-card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.6rem;}
+  .metric-card p{color:var(--text2);font-size:0.9rem;}
+  /* INTEGRATIONS */
+  .integrations{padding:4rem 8%;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .integrations-inner{max-width:1200px;margin:0 auto;text-align:center;}
+  .integrations h2{font-size:1.3rem;font-weight:700;color:var(--text2);margin-bottom:2rem;}
+  .int-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;align-items:center;}
+  .int-logo{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:0.75rem 1.5rem;color:var(--text2);font-size:0.9rem;font-weight:600;transition:0.3s;}
+  .int-logo:hover{border-color:var(--accent);color:#fff;}
+  /* PRICING */
+  .pricing-section{padding:5rem 8%;max-width:1200px;margin:0 auto;}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem;}
+  .price-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;transition:0.35s;position:relative;}
+  .price-card.featured{border-color:var(--accent);box-shadow:0 0 40px rgba(244,113,176,0.15);}
+  .price-card:hover{transform:translateY(-4px);}
+  .price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 16px;border-radius:100px;font-size:0.75rem;font-weight:800;}
+  .plan-name{font-size:0.85rem;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.75rem;}
+  .price-amount{font-size:2.8rem;font-weight:800;color:#fff;font-family:'JetBrains Mono',monospace;margin-bottom:0.5rem;}
+  .price-amount sup{font-size:1.1rem;}
+  .price-amount sub{font-size:0.9rem;color:var(--text2);}
+  .price-desc{color:var(--text2);font-size:0.9rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+  .feat-list{list-style:none;margin-bottom:2rem;}
+  .feat-list li{display:flex;align-items:center;gap:10px;padding:0.5rem 0;color:var(--text);font-size:0.9rem;}
+  .feat-list i{color:var(--success);font-size:0.75rem;flex-shrink:0;}
+  .btn-full{width:100%;justify-content:center;}
+  footer{padding:3rem 8% 2rem;border-top:1px solid var(--border);max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  footer p{color:var(--text2);font-size:0.85rem;}
+  .footer-mono{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--primary);}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}.hero{padding:5rem 5% 3rem;}.metrics-section,.pricing-section{padding:3rem 5%;}}
+</style>
 </head>
 <body>
-<header class="header">
-  <div class="container">
-    <div class="header-content">
-      <div class="logo">📢 Marketing & Sales Dashboard</div>
-      <div><span class="status-dot"></span>System Online</div>
+<div class="bg-grid"></div>
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+    <span class="logo-text">SalesIQ</span>
+  </a>
+  <div class="nav-actions">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <a href="#" class="nav-cta">Get Started Free</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="badge"><i class="fas fa-bolt"></i> AI REVENUE INTELLIGENCE</div>
+      <h1>Close more deals with <span>AI-powered</span> sales insight.</h1>
+      <p class="hero-sub">Unify your pipeline, campaigns, and revenue data. Spot opportunities, forecast accurately, and act on real-time signals — all in one dashboard.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Start Free Trial</a>
+        <a href="#features" class="btn btn-outline"><i class="fas fa-desktop"></i> View Demo</a>
+      </div>
+    </div>
+    <div class="dashboard-preview">
+      <div class="preview-header">
+        <span class="preview-title">Revenue Dashboard — Live</span>
+        <span class="live-dot">LIVE</span>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">MRR</div>
+          <div class="kpi-value">$84.2K</div>
+          <div class="kpi-delta up">▲ 12.4% vs last month</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Open Deals</div>
+          <div class="kpi-value">143</div>
+          <div class="kpi-delta up">▲ 8 new this week</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Win Rate</div>
+          <div class="kpi-value">38%</div>
+          <div class="kpi-delta up">▲ 5pp improvement</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Avg Deal Size</div>
+          <div class="kpi-value">$2.4K</div>
+          <div class="kpi-delta down">▼ 3% vs last qtr</div>
+        </div>
+      </div>
+      <div class="mini-chart">
+        <div class="chart-label">Revenue (last 7 days)</div>
+        <div class="bars">
+          <div class="bar" style="height:40%;background:rgba(244,113,176,0.4);"></div>
+          <div class="bar" style="height:55%;background:rgba(244,113,176,0.5);"></div>
+          <div class="bar" style="height:48%;background:rgba(244,113,176,0.4);"></div>
+          <div class="bar" style="height:70%;background:rgba(244,113,176,0.6);"></div>
+          <div class="bar" style="height:65%;background:rgba(244,113,176,0.5);"></div>
+          <div class="bar" style="height:82%;background:rgba(244,113,176,0.7);"></div>
+          <div class="bar" style="height:100%;background:var(--accent);"></div>
+        </div>
+      </div>
+      <div class="pipeline-row">
+        <div class="pipeline-stage"><div class="count">47</div><div class="stage-label">LEADS</div></div>
+        <div class="pipeline-stage"><div class="count">29</div><div class="stage-label">QUALIFIED</div></div>
+        <div class="pipeline-stage"><div class="count">18</div><div class="stage-label">PROPOSAL</div></div>
+        <div class="pipeline-stage"><div class="count">12</div><div class="stage-label">CLOSING</div></div>
+        <div class="pipeline-stage"><div class="count" style="color:var(--success);">8</div><div class="stage-label">WON</div></div>
+      </div>
     </div>
   </div>
-</header>
-<main class="container">
-  <h1>📢 Marketing & Sales Dashboard</h1>
-  <p class="subtitle">Multi-Channel Marketing Automation & Ad Campaigns</p>
-  <div class="nav-links">
-    <a href="https://superfastsimon.github.io/genesis-protocol-dashboard/">🧬 Genesis</a>
-    <a href="https://superfastsimon.github.io/procodepro-dashboard/">🛡️ ProCodePro</a>
-    <a href="https://superfastsimon.github.io/revenue-machines-dashboard/">💰 Revenue</a>
-    <a href="https://superfastsimon.github.io/marketing-sales-dashboard/">📢 Marketing</a>
-    <a href="https://superfastsimon.github.io/dev-utilities-dashboard/">🔨 Dev Tools</a>
-    <a href="https://superfastsimon.github.io/saikou-platform-dashboard/">⚡ Saikou</a>
-    <a href="https://superfastsimon.github.io/conceptforge-dashboard/">🔮 ConceptForge</a>
-    <a href="https://superfastsimon.github.io/affiliate-factory-dashboard/">🤝 Affiliate</a>
-    <a href="https://superfastsimon.github.io/vending-machines-dashboard/">🏭 Vending</a>
+</section>
+
+<section class="metrics-section" id="features">
+  <div class="section-label">Core Features</div>
+  <h2 class="section-title">Everything your revenue team needs</h2>
+  <p class="section-sub">From first touch to closed deal — track, analyze, and optimize every step of your sales and marketing funnel.</p>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(244,113,176,0.15);color:var(--accent);"><i class="fas fa-funnel-dollar"></i></div>
+      <h3>Pipeline Intelligence</h3>
+      <p>AI scores every deal by close probability, flags at-risk opportunities, and recommends next actions to push deals forward.</p>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(187,134,252,0.15);color:var(--primary);"><i class="fas fa-bullhorn"></i></div>
+      <h3>Campaign Attribution</h3>
+      <p>Connect every marketing dollar to closed revenue. See exactly which channels, campaigns, and content drive deals.</p>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(3,218,198,0.15);color:var(--secondary);"><i class="fas fa-chart-bar"></i></div>
+      <h3>Revenue Forecasting</h3>
+      <p>AI-powered forecasting that learns from your history. Get 90-day revenue predictions with confidence intervals.</p>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(255,171,0,0.15);color:var(--warning);"><i class="fas fa-envelope-open-text"></i></div>
+      <h3>Email Sequence Analytics</h3>
+      <p>Track open rates, reply rates, and conversion by sequence step. A/B test subject lines with statistical significance.</p>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(0,230,118,0.15);color:var(--success);"><i class="fas fa-user-tie"></i></div>
+      <h3>Lead Scoring</h3>
+      <p>AI assigns real-time scores to every lead based on fit, intent signals, and engagement. Never waste time on bad leads.</p>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="background:rgba(244,113,176,0.15);color:var(--accent);"><i class="fas fa-robot"></i></div>
+      <h3>AI Deal Coach</h3>
+      <p>Get specific suggestions for each deal: best time to follow up, objection handling playbooks, and competitive positioning.</p>
+    </div>
   </div>
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-number">8</div><div class="stat-label">Total Agents</div></div>
-    <div class="stat-card"><div class="stat-number" id="active-count">—</div><div class="stat-label">Active</div></div>
-    <div class="stat-card"><div class="stat-number" id="runs-today">—</div><div class="stat-label">Runs Today</div></div>
-    <div class="stat-card"><div class="stat-number" id="success-rate">—</div><div class="stat-label">Success Rate</div></div>
+</section>
+
+<section class="integrations">
+  <div class="integrations-inner">
+    <h2>Connects with your existing stack</h2>
+    <div class="int-logos">
+      <div class="int-logo"><i class="fab fa-salesforce"></i> Salesforce</div>
+      <div class="int-logo"><i class="fab fa-hubspot"></i> HubSpot</div>
+      <div class="int-logo"><i class="fas fa-envelope"></i> Gmail</div>
+      <div class="int-logo"><i class="fab fa-slack"></i> Slack</div>
+      <div class="int-logo"><i class="fab fa-stripe"></i> Stripe</div>
+      <div class="int-logo"><i class="fas fa-chart-pie"></i> Google Analytics</div>
+      <div class="int-logo"><i class="fab fa-linkedin"></i> LinkedIn Ads</div>
+      <div class="int-logo"><i class="fas fa-plug"></i> Zapier</div>
+    </div>
   </div>
-  <div class="agents-grid" id="agents-grid"></div>
-</main>
-<footer class="footer">
-  <p>Saikou.tech · Marketing & Sales Pipeline · <span id="ts"></span></p>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">Invest in your revenue stack</h2>
+  <p class="section-sub">Every plan includes a 14-day free trial. No credit card required.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="price-amount"><sup>$</sup>49<sub>/mo</sub></div>
+      <div class="price-desc">For solo founders and small sales teams</div>
+      <ul class="feat-list">
+        <li><i class="fas fa-check"></i> Up to 3 users</li>
+        <li><i class="fas fa-check"></i> Pipeline tracking</li>
+        <li><i class="fas fa-check"></i> Basic lead scoring</li>
+        <li><i class="fas fa-check"></i> Email analytics</li>
+        <li><i class="fas fa-check"></i> 2 integrations</li>
+      </ul>
+      <a href="#" class="btn btn-outline btn-full">Start Free Trial</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">MOST POPULAR</div>
+      <div class="plan-name">Growth</div>
+      <div class="price-amount"><sup>$</sup>129<sub>/mo</sub></div>
+      <div class="price-desc">For growing teams serious about revenue</div>
+      <ul class="feat-list">
+        <li><i class="fas fa-check"></i> Up to 10 users</li>
+        <li><i class="fas fa-check"></i> AI pipeline intelligence</li>
+        <li><i class="fas fa-check"></i> Revenue forecasting</li>
+        <li><i class="fas fa-check"></i> Campaign attribution</li>
+        <li><i class="fas fa-check"></i> AI deal coach</li>
+        <li><i class="fas fa-check"></i> All integrations</li>
+      </ul>
+      <a href="#" class="btn btn-primary btn-full">Start Free Trial</a>
+    </div>
+    <div class="price-card">
+      <div class="plan-name">Enterprise</div>
+      <div class="price-amount">Custom</div>
+      <div class="price-desc">For large sales orgs and enterprise teams</div>
+      <ul class="feat-list">
+        <li><i class="fas fa-check"></i> Unlimited users</li>
+        <li><i class="fas fa-check"></i> Custom AI models</li>
+        <li><i class="fas fa-check"></i> SSO &amp; SAML</li>
+        <li><i class="fas fa-check"></i> Dedicated CSM</li>
+        <li><i class="fas fa-check"></i> SLA guarantee</li>
+      </ul>
+      <a href="mailto:sales@salesiq.ai" class="btn btn-outline btn-full">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 SalesIQ. AI Revenue Intelligence.</p>
+  <span class="footer-mono">POWERED BY SAIKOU TECH</span>
 </footer>
-<script>
-const cluster = "Marketing & Sales";
-const count = 8;
-document.getElementById("active-count").textContent = Math.floor(count * 0.75);
-document.getElementById("runs-today").textContent = Math.floor(Math.random()*50)+10;
-document.getElementById("success-rate").textContent = (94+Math.floor(Math.random()*5))+"%";
-document.getElementById("ts").textContent = new Date().toLocaleString("nl-NL");
-const grid = document.getElementById("agents-grid");
-const statuses = ["active","active","active","idle","error"];
-for(let i=1;i<=count;i++){
-  const s = statuses[Math.floor(Math.random()*statuses.length)];
-  const colors = {active:"#00ff00",idle:"#ffaa00",error:"#ff0044"};
-  grid.innerHTML += `<div class="agent-card">
-    <div class="agent-name">${cluster} Agent ${i}</div>
-    <div class="agent-desc">Automated ${cluster} pipeline agent handling task execution and workflow orchestration.</div>
-    <span class="badge" style="color:${colors[s]};border-color:${colors[s]};background:${colors[s]}22">${s.toUpperCase()}</span>
-    <div style="margin-top:1rem">
-      <a href="https://platform.agpt.co/library" class="btn btn-primary">View Agent</a>
-      <button class="btn btn-secondary">Run</button>
-    </div>
-  </div>`;
-}
-</script>
 </body>
 </html>
